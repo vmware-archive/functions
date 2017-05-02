@@ -27,8 +27,6 @@ $ helm install --name my-release ./ocr-pipeline
 ```
 
 
-> **Tip**: List all releases using `helm list`
-
 ## Uninstalling the Chart
 
 To uninstall/delete the `my-release` deployment:
@@ -66,4 +64,3 @@ $ helm install --name my-release -f values.yaml i./ocr-pipeline
 
 Persistent Volume Claims are used to keep the data across deployments. This is known to work in GCE, AWS, and minikube.
 See the [Configuration](#configuration) section to configure the PVC or to disable persistence.
-
