@@ -20,7 +20,7 @@ test:
 	@-mc rm ocr/input 
 	@-mc mb ocr/input 
 	@-mc mb ocr/done
-	@-mc events add ocr/input arn:minio:sqs:us-east-1:1:webhook --events put
+	@-mc events add ocr/input arn:minio:sqs:us-east-1:1:webhook --events put --suffix .pdf
 	@-curl -s -O http://www.tra.org.bh/media/document/sample10.pdf
 	@-mc cp sample10.pdf  ocr/input
 	@-rm sample10.pdf
