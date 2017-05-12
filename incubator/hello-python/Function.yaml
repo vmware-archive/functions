@@ -1,0 +1,12 @@
+name: hello-python
+version: 0.0.1
+description: Hello sample toy function
+keywords:
+  - hello
+  - python
+sources:
+  - https://github.com/functions/tree/incubator/hello-python
+runtime: python2.7
+maintainers:
+  - name: Sebastien Goasguen
+    email: sebgoa@bitnami.com

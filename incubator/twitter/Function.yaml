@@ -1,0 +1,14 @@
+name: twitter
+version: 0.0.1
+description: Twitter function
+keywords:
+  - twitter
+  - python
+home: https://concourse.ci/
+sources:
+  - https://github.com/functions/tree/incubator/twitter
+runtime: python2.7
+requirements: requirements.txt
+maintainers:
+  - name: Sebastien Goasguen
+    email: sebgoa@bitnami.com
