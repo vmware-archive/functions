@@ -1,0 +1,4 @@
+slackclient
+kubernetes
+minio
+websocket-client==0.40.0
