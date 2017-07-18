@@ -1,0 +1,4 @@
+minio
+tika
+pymongo
+kubernetes

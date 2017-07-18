@@ -1,0 +1,12 @@
+description: A Apache Tika Server Helm chart for Kubernetes
+engine: gotpl
+home: https://tika.apache.org/
+icon: http://tika.apache.org/tika.png
+keywords:
+- tika
+- translation
+maintainers:
+- email: containers@bitnami.com
+  name: Bitnami
+name: tika-server
+version: 0.1.0
