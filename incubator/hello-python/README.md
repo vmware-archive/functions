@@ -4,6 +4,7 @@ Make sure `minikube` and `kubeless` are installed. See the respective installati
 * [Minikube](https://github.com/kubernetes/minikube#installation)
 * [Kubeless](https://github.com/kubeless/kubeless/blob/master/README.md#usage)
 
+You can deploy the function with kubeless or with the serverless plugin:
 
 ## Deploy the function with kubeless
 
