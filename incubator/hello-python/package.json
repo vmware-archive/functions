@@ -3,10 +3,7 @@
   "version": "0.0.1",
   "description": "This example demonstrates how to setup a simple Python function with Kubeless",
   "dependencies": {
-    "bluebird": "^3.5.0",
-    "chalk": "^2.0.1",
-    "kubernetes-client": "^3.10.1",
-    "serverless-kubeless": "^0.1.2"
+    "serverless-kubeless": "^0.1.4"
   },
   "main": "handler.py",
   "autor": "Bitnami",
