@@ -1,0 +1,12 @@
+service: tweet
+
+provider:
+  name: google
+  runtime: python2.7
+
+plugins:
+  - serverless-kubeless
+
+functions:
+  tweet:
+    handler: tweet.handler

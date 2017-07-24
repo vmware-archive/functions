@@ -1,0 +1,11 @@
+{
+  "name": "kubeless-python-simple",
+  "version": "0.0.1",
+  "description": "This example demonstrates how to setup a simple Python function with Kubeless",
+  "dependencies": {
+    "serverless-kubeless": "^0.1.4"
+  },
+  "main": "handler.py",
+  "autor": "Bitnami",
+  "license": "ASL"
+}
