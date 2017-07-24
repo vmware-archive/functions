@@ -100,7 +100,7 @@ minioConfig:
     database: ""
   kafka:
     enable: true
-    brokers: "kafka.kubeless"
+    brokers: "[\"kafka.kubeless:9092\"]"
     topic: "s3"
   webhook:
     enable: false
