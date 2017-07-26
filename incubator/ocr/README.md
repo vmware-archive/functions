@@ -67,7 +67,7 @@ $ kubeless function ls
 +------+-----------+-------------+-----------+--------+-------+--------------------------------+
 ```
 
-### 2. Invoke
+### 2. Trigger the function
 
 To trigger the function you only need to upload a PDF file to the `input` bucket using the Minio web interface of the minio client.
 
