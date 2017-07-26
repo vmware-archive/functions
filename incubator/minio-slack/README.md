@@ -24,8 +24,8 @@ kubectl create secret generic slack --from-literal=token=YOUR_SLACK_TOKEN
 ### Deploy Minio via Helm
 
 ```bash
-helm repo add
-helm install --name minio ./minio --set serviceType=NodePort
+helm repo add kubeless-functions-charts https://kubeless-functions-charts.storage.googleapis.com
+helm install --name minio kubeless-functions-charts/minio --set serviceType=NodePort
 ```
 
 ### Configure Minio
