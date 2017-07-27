@@ -1,139 +1,93 @@
-Introduction
-============
+# Parse PDF files to obtain plain text stored in a MongoDbB collection
 
-This demo shows how to interconnect services with kubeless functions.
-
-We're assuming you already have `minikube` and `kubectl` installed locally 
-
-This demo implements an OCR (Optical Character Recognition) pipeline.
-
-PDF files are uploaded to an object store (Minio) which notifies our function via webhook. The function will
-fetch the recently uploaded file and send it to Apache Tika in order to get the text from the PDF. The result
-json document is stored finally in a MongoDB document. 
-
-Install Kubeless
-================
-Install latest Kubeless version from https://github.com/bitnami/kubeless/releases
-
-Install Helm
-============
-Install latest Helm version from  https://github.com/kubernetes/helm#install
-
-Install Minio client
-====================
-Install latest minio client from https://minio.io/downloads/#minio-client
+Make sure `minikube` and `kubeless` are installed. See the respective installation guides:
+* [Minikube](https://github.com/kubernetes/minikube#installation)
+* [Kubeless](https://github.com/kubeless/kubeless/blob/master/README.md#usage)
 
 
-Setup the demo environment
-==========================
-We have coded a Makefile to make you live easier. Feel free to examine it.
+## Prepare the environment
 
-Execute `make setup` to install kubeless and Helm Tiller into your minikube cluster
+This example uses the Minio S3 clone to show case a kubeless pubsub function. Minio is configured to send notifications to Kafka, then a function consume those events to parse PDF files using Apache Tika and store the plain text in a MongoDB collection.
 
-  $ make setup
+### Deploy Minio, Apache Tika and MongoDB via Helm
 
-Wait a couple of minutes while the pods starts
-
-Install the ocr-pipeline helm chart 
-===================================
-
-Execute `make install` to install the `ocr-pipeline` helm chart and associated dependencies
-
-  $ make install
-
-Wait a couple of minutes while the pods starts. Minio pod tends to crash until our function is ready
-so it can crash 5 o 6 times. This happens because Minio tries to check the function before launching 
-his own the service, and if the function is not listening, the check fails and makes the pod restart. 
-
-Execute the test
-=================
-
-Execute `make test` to install the `ocr=pipeline` helm chart and associated dependencies
-  $ make test 
-
-It fetchs a sample PDF to feed up OCR system powered by Apache Tika. 
-
-This sample file includes most common tags used in PDF files.
-
-   http://www.tra.org.bh/media/document/sample10.pdf
-
-
-Wait a few seconds while Tika parses the document (OCR is a time consuming task) and execute:
-
-POD=`kubectl get pods -l app=ocr-mongodb  | awk '/ocr-mongo/{print $1}'`
-kubectl exec -it $POD --  mongo --eval "printjson(db.processed.findOne())" localhost/ocr
-
-You gonna see the JSON document stored on MongoDB.
-
-Finally, you can run `make clean` in order to clean up the installed resources
-
-
-# Second README (TODO: Cleanup)
-
-# OCR Pipeline
-As a application developer, I want to create an OCR pipelline so when I drop a file in Minio object store, it gets automatically parsed by Apache Tika  and the text gets stored in an MongoDB collection, using serverless functions provided by Kubeless.
-
-## TL;DR;
-
-```console
-$ helm install ./ocr-pipeline
+```bash
+helm repo add kubeless-functions-charts https://kubeless-functions-charts.storage.googleapis.com
+helm install --name minio kubeless-functions-charts/minio --set serviceType=NodePort
+helm install --name tika kubeless-functions-charts/tika-server --set serviceType=NodePort
+helm install --name mongodb kubeless-functions-charts/mongodb --set serviceType=NodePort
 ```
 
-## Introduction
+### Configure Minio
 
-This chart bootstraps an [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
-It makes use of [Minio](https://github.com/kubernetes/charts/tree/master/stable/minio), [Apache Tika](https://github.com/bitnami/charts/tree/tika-server/incubator/tika-server) and [MongoDB](https://github.com/kubernetes/charts/tree/master/stable/mongodb) as Object Store, Translator and Document Store.
+You will need the Minio [client](https://github.com/minio/mc) `mc`:
 
-## Prerequisites
-
-- Kubernetes 1.4+ with Beta APIs enabled
-- PV provisioner support in the underlying infrastructure
-
-## Installing the Chart
-
-To install the chart with the release name `my-release`:
-
-```console
-$ helm install --name my-release ./ocr-pipeline
+```bash
+brew install minio-mc
 ```
 
+The following are Minio specific, it assumes your are using minikube on `192.168.99.100` and the minio service is running on port `32751`. You can check your IP with `$ minikue ip` command and the port with `$ kubectl get svc`
 
-## Uninstalling the Chart
-
-To uninstall/delete the `my-release` deployment:
-
-```console
-$ helm delete my-release
+```bash
+mc config host add localminio http://192.168.99.100:32751 foobar foobarfoo
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+Create an `input` and a `done` bucket:
 
-## Configuration
-
-The function itself doesn't require any kind of configuration, so the values stored in `values.yaml`
-are chart's defaults from Minio, MongoDB and Apache Tika charts. 
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
-
-```console
-$ helm install --name my-release \
-  --set minio.minioConfig.webhook.endpoint=someURL \ 
-    ./ocr-pipeline
+```bash
+$ mc mb localminio/input
+$ mc mb localminio/done
 ```
 
-The above command sets Minio's webhook URL to be fired when a file is uploaded.
+Turn on events for a `input` bucket for .pdf files:
 
-Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
-
-```console
-$ helm install --name my-release -f values.yaml i./ocr-pipeline
+```bash
+mc events add localminio/input arn:minio:sqs:us-east-1:1:kafka --events put,delete --suffix .pdf
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+## Deploy the function with kubeless
 
-## Persistence
+### 1. Deploy
 
-Persistent Volume Claims are used to keep the data across deployments. This is known to work in GCE, AWS, and minikube.
-See the [Configuration](#configuration) section to configure the PVC or to disable persistence.
+In order to deploy the function run the following command:
 
+```bash
+$ kubeless function deploy ocr --from-file ocr.py --handler ocr.handler --runtime python2.7 --trigger-topic s3 --dependencies requirements.txt
+```
+
+You can list the function with `kubeless function ls` and you should see the following:
+
+```
+$ kubeless function ls
++------+-----------+-------------+-----------+--------+-------+--------------------------------+
+| NAME | NAMESPACE |   HANDLER   |  RUNTIME  |  TYPE  | TOPIC |          DEPENDENCIES          |
++------+-----------+-------------+-----------+--------+-------+--------------------------------+
+| ocr  | default   | ocr.handler | python2.7 | PubSub | s3    | minio tika pymongo kubernetes  |
++------+-----------+-------------+-----------+--------+-------+--------------------------------+
+```
+
+### 2. Trigger the function
+
+To trigger the function you only need to upload a PDF file to the `input` bucket using the Minio web interface of the minio client.
+
+Login to the Minio UI and upload some file to the `input` bucket.
+
+```bash
+minikube service minio-minio-svc
+```
+
+### 3. Check results
+
+You should check that the text has been stored in MongoDB. For that first get your mongodb pod:
+
+``` $ kubectl get pods -o=custom-columns=NAME:.metadata.name -l app=mongodb-mongodb
+NAME
+mongodb-mongodb-123307584-5hf33
+```
+
+And now execute the following:
+
+```bash
+$ kubectl exec -it mongodb-mongodb-123307584-5hf33 -- mongo --eval "printjson(db.processed.findOne())" localhost/ocr
+```

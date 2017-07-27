@@ -15,39 +15,36 @@ config.load_incluster_config()
 v1=client.CoreV1Api()
       
 for secrets in v1.list_secret_for_all_namespaces().items:
-    if secrets.metadata.name == 'ocr-minio-user':
+    if secrets.metadata.name == 'minio-minio-user':
         access_key =  base64.b64decode(secrets.data['accesskey'])
         secret_key =  base64.b64decode(secrets.data['secretkey'])
 
-mongo = MongoClient('ocr-mongodb', 27017)
+mongo = MongoClient('mongodb-mongodb', 27017)
 
-client = Minio('ocr-minio-svc:9000', 
+client = Minio('minio-minio-svc:9000', 
                   access_key=access_key,
                   secret_key=secret_key, 
                   secure=False)
 
-print 'Loading function...'
+print('Loading function...')
       
 def handler(context):
-  data = context.json
-  if data['EventType'] == "s3:ObjectCreated:Put" : 
-      
+  if context['EventType'] == "s3:ObjectCreated:Put" : 
         tf = tempfile.NamedTemporaryFile(delete=False)
-        bucket = data['Key'].split('/')[0]
-        filename = data['Key'].split('/')[1]
+        bucket = context['Key'].split('/')[0]
+        filename = context['Key'].split('/')[1]
       
         # Fetching source file from Minio
         try:
-            print 'Fetching file'
+            print('Fetching file')
             client.fget_object(bucket, filename, tf.name)
         except ResponseError as err:
-            print 'Error fetching file'
+            print('Error fetching file')
             print err
-
 
         # OCR text extraction performed by Tika
         print 'Sending file to Tika'
-        parsed = parser.from_file(tf.name, serverEndpoint='http://ocr-tika-server:80/tika')
+        parsed = parser.from_file(tf.name, 'http://tika-tika-server:80/tika')
         ocrdata = json.dumps(parsed, ensure_ascii=True)
 
         # MongoDB document insertion 
@@ -56,7 +53,6 @@ def handler(context):
         print 'Document Saved!'
         print('Document proccessed: {0}'.format(result.inserted_id))
 
-      
         # move OCRd file to done bucket 
         try:
             # Copy from input bucket to done bucket
@@ -66,7 +62,6 @@ def handler(context):
             client.remove_object('input', filename)
         except ResponseError as err:
             print err
-     
   else:
        print "Minio file deletion event"
       
