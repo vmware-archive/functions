@@ -1,0 +1,25 @@
+# Default values for debezium-connect image
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+image:
+  repository: debezium/connect
+  tag: 0.5
+  pullPolicy: IfNotPresent
+service:
+  name: connect
+  type: ClusterIP
+  externalPort: 8083
+  internalPort: 8083
+config:
+  groupId: 1
+  configStorageTopic: my_connect_configs
+  offsetStorageTopic: my_connect_offsets
+  bootstrapServers: kafka.kubeless:9092
+#resources:
+#  limits:
+#    cpu: 100m
+#    memory: 512Mi
+#  requests:
+#    cpu: 100m
+#    memory: 512Mi

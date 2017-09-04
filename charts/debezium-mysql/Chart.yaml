@@ -1,0 +1,11 @@
+description: MySQL server with an example database by Debezium
+engine: gotpl
+home: https://www.mysql.com/
+keywords:
+- mysql
+- debezium
+maintainers:
+- email: containers@bitnami.com
+  name: Bitnami
+name: debezium-mysql
+version: 0.1.0
