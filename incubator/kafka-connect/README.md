@@ -27,13 +27,13 @@ $ helm repo add kubeless-functions-charts https://kubeless-functions-charts.stor
 ### Deploy Debezium MySQL via Helm
 
 ```bash
-$ helm install --name debezium-mysql kubeless-functions-charts/minio --set service.type=NodePort
+$ helm install --name debezium-mysql kubeless-functions-charts/debezium-mysql --set service.type=NodePort
 ```
 
 ### Deploy Debezium Kafka-Connect via Helm
 
 ```bash
-$ helm install --name debezium-connect kubeless-functions-charts/minio --set service.type=NodePort
+$ helm install --name debezium-connect kubeless-functions-charts/debezium-connect --set service.type=NodePort
 ```
 
 ### Get kafka-connect host and port
