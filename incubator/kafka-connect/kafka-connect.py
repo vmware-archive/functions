@@ -1,17 +1,16 @@
 import json
 import base64
 from slackclient import SlackClient
-#from kubernetes import client, config
+from kubernetes import client, config
 
-#config.load_incluster_config()
-#config.load_kube_config()
-#v1=client.CoreV1Api()
+config.load_incluster_config()
+config.load_kube_config()
+v1=client.CoreV1Api()
 
 #Get slack secret
-#for secrets in v1.list_secret_for_all_namespaces().items:
-#    if secrets.metadata.name == 'slack':
-#        token = base64.b64decode(secrets.data['token'])
-token="xoxp-199926714452-199317980321-202823689120-a513c9a57b8f95fc0714f7dd68f6cf36"
+for secrets in v1.list_secret_for_all_namespaces().items:
+    if secrets.metadata.name == 'slack':
+        token = base64.b64decode(secrets.data['token'])
 sc = SlackClient(token)
 
 print "==> Function ready to listen events..."
