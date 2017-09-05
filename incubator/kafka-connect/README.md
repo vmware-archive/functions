@@ -68,7 +68,29 @@ NAME         	NAMESPACE	HANDLER              	RUNTIME  	TYPE  	TOPIC
 kafka-connect	default  	kafka-connect.handler	python2.7	PubSub	dbserver1.inventory.customers
 ```
 
-### 2. Invoke
+
+## Deploy the function with the Serverless plugin
+
+Alternatively you can deploy the function with the Serverless plugin for Kubeless.
+Make sure `serverless` is installed. You can see the installation instructions [here](https://github.com/serverless/serverless#quick-start).
+
+### 1. Install Service Dependencies
+Run `npm install` in this directory to download the modules from `package.json`.
+
+### 2. Deploy
+Run `serverless deploy` in order to deploy the function defined in `serverless.yml`
+
+```bash
+$ serverless deploy
+Serverless: Packaging service...
+Serverless: Excluding development dependencies...
+Serverless: Deploying function kafka-connect...
+Serverless: Function kafka-connect succesfully deployed
+```
+
+**For more information on the Serverless Kubeless plugin, please see the project repository: [https://github.com/serverless/serverless-kubeless](https://github.com/serverless/serverless-kubeless).**
+
+## Invoke the function
 
 To trigger the function you should log into the mysql container, open a client session and make som INSERT, UPDATE or DELETE operation in the customers table.
 

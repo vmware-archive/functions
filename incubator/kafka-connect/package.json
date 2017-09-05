@@ -1,0 +1,14 @@
+{
+  "name": "kafka-connect",
+  "version": "1.0.0",
+  "description": "Function using kafka-connect to ingest events from database changes",
+  "dependencies": {
+    "serverless-kubeless": "^0.1.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0"
+}
