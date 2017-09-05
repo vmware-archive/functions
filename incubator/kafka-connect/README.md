@@ -7,9 +7,9 @@ Make sure `minikube` and `kubeless` are installed. See the respective installati
 
 ## Prepare the environment
 
-This example uses the Minio S3 clone to show case a kubeless pubsub function. Minio is configured to send notifications to Kafka, a function consumes those events and performs actions.
+This example uses the Debezium Kafka-Connect image to monitor a MySQL database and send events to a Kafka topic. A kubeless function will consume those events and performs actions.
 
-### Create Slack kubernetes secrets
+### Create Slack kubernetes secret
 
 Obtain your slack token from [this page](https://api.slack.com/custom-integrations/legacy-tokens) and then deploy a secret to kubernetes with this command:
 
@@ -92,7 +92,7 @@ Serverless: Function kafka-connect succesfully deployed
 
 ## Invoke the function
 
-To trigger the function you should log into the mysql container, open a client session and make som INSERT, UPDATE or DELETE operation in the customers table.
+To trigger the function you should log into the mysql container, open a client session and make some INSERT, UPDATE or DELETE operations in the `customers` table.
 
 
 ```bash
