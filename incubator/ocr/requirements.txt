@@ -1,4 +1,4 @@
 minio
 tika
 pymongo
-kubernetes
+kubernetes==2.0.0
