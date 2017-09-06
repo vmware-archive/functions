@@ -1,0 +1,13 @@
+description: Kafka Connect service by Debezium
+engine: gotpl
+home: http://debezium.io/docs/connectors/mysql/
+keywords:
+- mysql
+- debezium
+- kafka
+- connector
+maintainers:
+- email: containers@bitnami.com
+  name: Bitnami
+name: debezium-connect
+version: 0.1.0
