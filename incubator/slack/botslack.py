@@ -18,5 +18,5 @@ def handler(context):
     return sc.api_call(
                        "chat.postMessage",
                        channel="#bot",
-                       text=context.json['msg']
+                       text=context
                       )

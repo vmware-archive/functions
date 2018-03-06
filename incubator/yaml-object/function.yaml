@@ -1,0 +1,26 @@
+apiVersion: kubeless.io/v1beta1
+kind: Function
+metadata:
+  name: hello-yaml
+spec:
+  deps:
+  function: |+
+    import time
+    def hello():
+        print "hello world"
+        return "hello world"
+  function-content-type: text
+  handler: hello-yaml.hello
+  runtime: python2.7
+  deployment:
+    metadata:
+      creationTimestamp: null
+    spec:
+      template:
+        metadata:
+        spec:
+          containers:
+          - image: kubeless/python@sha256:0f3b64b654df5326198e481cd26e73ecccd905aae60810fc9baea4dcbb61f697
+            name: kubeless
+  timeout: "180"
+  type: HTTP
