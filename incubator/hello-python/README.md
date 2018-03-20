@@ -19,18 +19,16 @@ You can list the function with `kubeless function ls` and you should see the fol
 
 ```
 $ kubeless function ls
-+-------+-----------+---------------+-----------+--------+----------+--------------+
-| NAME  | NAMESPACE |    HANDLER    |  RUNTIME  |  TYPE  |  TOPIC   | DEPENDENCIES |
-+-------+-----------+---------------+-----------+--------+----------+--------------+
-| hello | default   | hello.handler | python2.7 | PubSub | kubeless |              |
-+-------+-----------+---------------+-----------+--------+----------+--------------+
+NAME 	NAMESPACE	HANDLER      	RUNTIME  	DEPENDENCIES	STATUS
+hello	default  	hello.handler	python2.7	            	1/1 READY
 ```
 
 ### 2. Invoke
 You can now call your function:
 
 ```bash
-kubeless function call hello
+$ kubeless function call hello
+Hello World!
 ```
 
 ## Deploy the function with the serverless plugin

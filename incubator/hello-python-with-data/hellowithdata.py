@@ -1,5 +1,5 @@
 import json
 
-def handler(context):
-    print context.json
-    return context.json
+def handler(event, context):
+    print(event)
+    return event['data']

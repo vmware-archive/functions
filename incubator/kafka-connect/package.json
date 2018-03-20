@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Function using kafka-connect to ingest events from database changes",
   "dependencies": {
-    "serverless-kubeless": "^0.1.6"
+    "serverless-kubeless": "^0.4.0"
   },
   "devDependencies": {},
   "scripts": {

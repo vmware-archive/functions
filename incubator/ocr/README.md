@@ -60,11 +60,11 @@ You can list the function with `kubeless function ls` and you should see the fol
 
 ```
 $ kubeless function ls
-+------+-----------+-------------+-----------+--------+-------+--------------------------------+
-| NAME | NAMESPACE |   HANDLER   |  RUNTIME  |  TYPE  | TOPIC |          DEPENDENCIES          |
-+------+-----------+-------------+-----------+--------+-------+--------------------------------+
-| ocr  | default   | ocr.handler | python2.7 | PubSub | s3    | minio tika pymongo kubernetes  |
-+------+-----------+-------------+-----------+--------+-------+--------------------------------+
+NAME         	NAMESPACE	HANDLER              	RUNTIME  	DEPENDENCIES     	STATUS
+ocr          	default  	ocr.handler          	python2.7	minio            	1/1 READY
+             	         	                     	         	tika
+             	         	                     	         	pymongo
+             	         	                     	         	kubernetes==2.0.0
 ```
 
 ### 2. Trigger the function

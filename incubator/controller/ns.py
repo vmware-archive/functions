@@ -28,13 +28,17 @@ spec:
 
 deployment = yaml.load(nginx)
 
-def handler(event):
+def handler(event, context):
     try:
-        if event['type'] == "ADDED" and event['object']['kind'] == "Namespace":
-            print "Event: %s %s %s" % (event['type'], event['object']['kind'], event['object']['metadata']['name'])
-            res = d1.create_namespaced_deployment(body=deployment, namespace=event['object']['metadata']['name'])
-    except:
+        if event['data']['type'] == "ADDED" and event['data']['object']['kind'] == "Namespace":
+            print "Event: %s %s %s" % (event['data']['type'], event['data']['object']['kind'],
+                                       event['data']['object']['metadata']['name'])
+            res = d1.create_namespaced_deployment(
+                body=deployment, namespace=event['data']['object']['metadata']['name'])
+            return str(res)
+    except Exception as inst:
+        print type(inst)
+        print inst
         print event.keys()
         print type(event)
         print str(event)
-    return True

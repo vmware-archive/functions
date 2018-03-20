@@ -9,8 +9,8 @@ mongoose.connect('mongodb://mongodb.default/Tododb');
 var controller = require('./api/controllers/todoListController'); //importing route
 
 module.exports = {
-    add: function (req, res) { controller.create_a_task(req, res) },
-    delete: function (req, res) { controller.delete_a_task(req, res) },
-    list: function (req, res) { controller.list_all_tasks(req, res) },
-    update: function (req, res) { controller.update_a_task(req, res) },
+    add: function (event, data) { return controller.create_a_task(event, data) },
+    delete: function (event, data) { return controller.delete_a_task(event, data) },
+    list: function (event, data) { return controller.list_all_tasks(event, data) },
+    update: function (event, data) { return controller.update_a_task(event, data) },
 }

@@ -40,7 +40,9 @@ brew install minio-mc
 The following are Minio specific, it assumes your are using minikube on `192.168.99.100` and the minio service is running on port `32751`
 
 ```bash
-mc config host add localminio http://192.168.99.100:32751 foobar foobarfoo
+export MINIO_HOST=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+export MINIO_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services minio-minio-svc)
+mc config host add localminio http://$MINIO_HOST:$MINIO_PORT foobar foobarfoo
 ```
 
 Create a foobar bucket:
@@ -76,11 +78,9 @@ You can list the function with `kubeless function ls` and you should see the fol
 
 ```
 $ kubeless function ls
-+-------------+-----------+---------------------+-----------+--------+-------+-------------------------------+
-|    NAME     | NAMESPACE |       HANDLER       |  RUNTIME  |  TYPE  | TOPIC |         DEPENDENCIES          |
-+-------------+-----------+---------------------+-----------+--------+-------+-------------------------------+
-| minio-slack | default   | minio-slack.handler | python2.7 | PubSub | s3    | slackclient kubernetes minio  |
-+-------------+-----------+---------------------+-----------+--------+-------+-------------------------------+
+minio-slack  	default  	minio-slack.handler  	python2.7	slackclient      	1/1 READY
+             	         	                     	         	kubernetes==2.0.0
+             	         	                     	         	minio
 ```
 
 ### 2. Invoke

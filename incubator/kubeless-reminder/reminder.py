@@ -14,7 +14,7 @@ for secrets in v1.list_secret_for_all_namespaces().items:
 
 sc = SlackClient(token)
 
-def remind():
+def remind(event, context):
     return sc.api_call(
                        "chat.postMessage",
                        channel="#kubeless",
