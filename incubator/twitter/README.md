@@ -23,7 +23,7 @@ Now you can deploy the function with kubeless or with the serverless plugin:
 In order to deploy the function run the following command:
 
 ```bash
-$ kubeless function deploy tweet --from-file tweet.py --handler tweet.handler --runtime python2.7 --trigger-http --dependencies requirements.txt
+$ kubeless function deploy tweet --from-file tweet.py --handler tweet.handler --runtime python2.7 --dependencies requirements.txt
 ```
 
 You can list the function with `kubeless function ls` and you should see the following:

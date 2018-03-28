@@ -8,8 +8,7 @@ This is a simple function that uses query.yahooapis.com to retrieve the weather 
 kubeless function deploy weather --runtime nodejs8 \
   --from-file handler.js \
   --dependencies package.json \
-  --handler handler.weather \
-  --trigger-http
+  --handler handler.weather
 ```
 
 ## Execute the function

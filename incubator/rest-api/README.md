@@ -21,26 +21,22 @@ kubeless function deploy api-list \
                         --from-file api.zip \
                         --handler server.list \
                         --runtime nodejs6 \
-                        --dependencies package.json \
-                        --trigger-http
+                        --dependencies package.json
 kubeless function deploy api-add \
                         --from-file api.zip \
                         --handler server.add \
                         --runtime nodejs6 \
-                        --dependencies package.json \
-                        --trigger-http
+                        --dependencies package.json
 kubeless function deploy api-update \
                         --from-file api.zip \
                         --handler server.update \
                         --runtime nodejs6 \
-                        --dependencies package.json \
-                        --trigger-http
+                        --dependencies package.json
 kubeless function deploy api-delete \
                         --from-file api.zip \
                         --handler server.delete \
                         --runtime nodejs6 \
-                        --dependencies package.json \
-                        --trigger-http
+                        --dependencies package.json
 ```
 
 Once the functions are finally deployed you can invoke them:

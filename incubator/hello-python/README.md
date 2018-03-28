@@ -12,7 +12,7 @@ You can deploy the function with kubeless or with the serverless plugin:
 In order to deploy the function run the following command:
 
 ```bash
-$ kubeless function deploy hello --from-file hello.py --handler hello.handler --runtime python2.7 --trigger-http
+$ kubeless function deploy hello --from-file hello.py --handler hello.handler --runtime python2.7
 ```
 
 You can list the function with `kubeless function ls` and you should see the following:
