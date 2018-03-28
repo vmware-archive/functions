@@ -2,20 +2,12 @@
 
 Make sure `minikube` and `kubeless` are installed. See the respective installation guides:
 * [Minikube](https://github.com/kubernetes/minikube#installation)
-* [Kubeless](https://github.com/kubeless/kubeless/blob/master/README.md#usage)
+* [Kubeless](http://kubeless.io/docs/quick-start/)
 
 
 ## Prepare the environment
 
 This example uses the Debezium Kafka-Connect image to monitor a MySQL database and send events to a Kafka topic. A kubeless function will consume those events and performs actions.
-
-### Create Slack kubernetes secret
-
-Obtain your slack token from [this page](https://api.slack.com/custom-integrations/legacy-tokens) and then deploy a secret to kubernetes with this command:
-
-```bash
-$ kubectl create secret generic slack --from-literal=token=YOUR_SLACK_TOKEN
-```
 
 ### Add kubeless-functions-charts repository
 
@@ -63,11 +55,9 @@ You can list the function with `kubeless function ls` and you should see the fol
 
 ```
 $ kubeless function ls
-
-NAME         	NAMESPACE	HANDLER              	RUNTIME  	TYPE  	TOPIC
-kafka-connect	default  	kafka-connect.handler	python2.7	PubSub	dbserver1.inventory.customers
+NAME         	NAMESPACE	HANDLER              	RUNTIME  	DEPENDENCIES      STATUS
+kafka-connect	default  	kafka-connect.handler	python2.7	kubernetes==2.0.0 1/1 READY
 ```
-
 
 ## Deploy the function with the Serverless plugin
 

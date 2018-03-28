@@ -17,9 +17,9 @@ config.load_incluster_config()
 v1=client.CoreV1Api()
 
 for secrets in v1.list_secret_for_all_namespaces().items:
-    if secrets.metadata.name == 'minio':
-        access_key = base64.b64decode(secrets.data['access_key'])
-        secret_key = base64.b64decode(secrets.data['secret_key'])
+    if secrets.metadata.name == 'minio-minio-user':
+        access_key = base64.b64decode(secrets.data['accesskey'])
+        secret_key = base64.b64decode(secrets.data['secretkey'])
 
 # Replace the DNS below with the minio service name (helm release name -svc)
 client = Minio('minio-minio-svc:9000',
@@ -27,17 +27,17 @@ client = Minio('minio-minio-svc:9000',
                   secret_key=secret_key,
                   secure=False)
 
-def thumbnail(context):
-    bucket = os.path.dirname(context['Key'])
-    _, file_extension = os.path.splitext(context['Key'])
-    filename = os.path.basename(context['Key'])
+def thumbnail(event, context):
+    bucket = os.path.dirname(event['data']['Key'])
+    _, file_extension = os.path.splitext(event['data']['Key'])
+    filename = os.path.basename(event['data']['Key'])
 
     print file_extension.upper()
 
     if file_extension.upper() != ".JPEG":
         return "Not a picture"
-    
-    if context['EventType'] == "s3:ObjectCreated:Put" and bucket == 'foobar':
+
+    if event['data']['EventType'] == "s3:ObjectCreated:Put" and bucket == 'foobar':
 
         tf = tempfile.NamedTemporaryFile(delete=False)
         tf_thumb = tempfile.NamedTemporaryFile(delete=False)
@@ -46,7 +46,7 @@ def thumbnail(context):
             client.fget_object(bucket, filename, tf.name)
         except ResponseError as err:
             print err
-        
+
         size=(120,120)
         img = Image.open(tf.name)
         img.thumbnail(size)

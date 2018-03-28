@@ -2,7 +2,7 @@
 
 Make sure `minikube` and `kubeless` are installed. See the respective installation guides:
 * [Minikube](https://github.com/kubernetes/minikube#installation)
-* [Kubeless](https://github.com/kubeless/kubeless/blob/master/README.md#usage)
+* [Kubeless](http://kubeless.io/docs/quick-start/)
 
 You can deploy the function with kubeless or with the serverless plugin:
 
@@ -12,25 +12,22 @@ You can deploy the function with kubeless or with the serverless plugin:
 In order to deploy the function run the following command:
 
 ```bash
-$ kubeless function deploy hello --from-file hellowithdata.py --handler hellowithdata.handler --runtime python2.7 --trigger-http
+$ kubeless function deploy hello --from-file hellowithdata.py --handler hellowithdata.handler --runtime python2.7
 ```
 
 You can list the function with `kubeless function ls` and you should see the following:
 
 ```
 $ kubeless function ls
-+---------------+-----------+-----------------------+-----------+------+-------+--------------+
-|     NAME      | NAMESPACE |        HANDLER        |  RUNTIME  | TYPE | TOPIC | DEPENDENCIES |
-+---------------+-----------+-----------------------+-----------+------+-------+--------------+
-| hellowithdata | default   | hellowithdata.handler | python2.7 | HTTP |       |              |
-+---------------+-----------+-----------------------+-----------+------+-------+--------------+
+NAME 	NAMESPACE	HANDLER              	RUNTIME  	DEPENDENCIES	STATUS
+hello	default  	hellowithdata.handler	python2.7	            	1/1 READY
 ```
 
 ### 2. Invoke
 You can now call your function:
 
 ```bash
-kubeless function call hellowithdata --data '{"name": "Tomas"}'
+kubeless function call hello --data '{"name": "Tomas"}'
 ```
 
 ## Deploy the function with the serverless plugin

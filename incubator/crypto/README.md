@@ -1,7 +1,7 @@
 # Function to get price of Cryptocurrencies
 
 ```
-kubeless function deploy crypto --from-file crypto.py --handler crypto.handler --runtime python2.7 --trigger-http --dependencies requirements.txt
+kubeless function deploy crypto --from-file crypto.py --handler crypto.handler --runtime python2.7 --dependencies requirements.txt
 ```
 
 Then call the function, specifying with crypto currency you want to get the price of:

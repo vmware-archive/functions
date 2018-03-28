@@ -2,7 +2,7 @@
 
 Make sure `minikube` and `kubeless` are installed. See the respective installation guides:
 * [Minikube](https://github.com/kubernetes/minikube#installation)
-* [Kubeless](https://github.com/kubeless/kubeless/blob/master/README.md#usage)
+* [Kubeless](http://kubeless.io/docs/quick-start/)
 
 Before deploy the function, you need to create a kubernetes secret storing your consumer_key, consumer_secret and token_key and token_secret. You can obtain them from the following URL by creating a new app.
 
@@ -23,18 +23,16 @@ Now you can deploy the function with kubeless or with the serverless plugin:
 In order to deploy the function run the following command:
 
 ```bash
-$ kubeless function deploy hello --from-file tweet.py --handler tweet.handler --runtime python2.7 --trigger-http --dependencies requirements.txt
+$ kubeless function deploy tweet --from-file tweet.py --handler tweet.handler --runtime python2.7 --dependencies requirements.txt
 ```
 
 You can list the function with `kubeless function ls` and you should see the following:
 
 ```
 $ kubeless function ls
-+-------+-----------+---------------+-----------+------+-------+----------------------------+
-| NAME  | NAMESPACE |    HANDLER    |  RUNTIME  | TYPE | TOPIC |        DEPENDENCIES        |
-+-------+-----------+---------------+-----------+------+-------+----------------------------+
-| tweet | default   | tweet.handler | python2.7 | HTTP |       | python-twitter kubernetes  |
-+-------+-----------+---------------+-----------+------+-------+----------------------------+
+NAME      	NAMESPACE	HANDLER      	RUNTIME  	DEPENDENCIES        	STATUS
+tweet     	default  	tweet.handler	python2.7	python-twitter      	1/1 READY
+          	         	             	         	kubernetes==2.0.0
 ```
 
 ### 2. Invoke

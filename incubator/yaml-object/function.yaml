@@ -3,24 +3,12 @@ kind: Function
 metadata:
   name: hello-yaml
 spec:
+  checksum: sha256:d251999dcbfdeccec385606fd0aec385b214cfc74ede8b6c9e47af71728f6e9a
   deps:
-  function: |+
-    import time
-    def hello():
-        print "hello world"
+  function: |
+    def foo(event, context):
         return "hello world"
   function-content-type: text
-  handler: hello-yaml.hello
+  handler: helloget.foo
   runtime: python2.7
-  deployment:
-    metadata:
-      creationTimestamp: null
-    spec:
-      template:
-        metadata:
-        spec:
-          containers:
-          - image: kubeless/python@sha256:0f3b64b654df5326198e481cd26e73ecccd905aae60810fc9baea4dcbb61f697
-            name: kubeless
   timeout: "180"
-  type: HTTP

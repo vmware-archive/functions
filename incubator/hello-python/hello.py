@@ -1,3 +1,3 @@
 import json
-def handler():
+def handler(event, context):
     return "Hello World!"

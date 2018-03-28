@@ -3,8 +3,8 @@
 const rq = require('request-promise-native');
 
 module.exports = {
-    weather: async function (req, res) {
-        const location = req.body.location;
+    weather: async function (event, context) {
+        const location = event.data.location;
 
         if (!location) {
             throw new Error('You must provide a location.');
@@ -13,6 +13,6 @@ module.exports = {
         const condition = JSON.parse(response).query.results.channel.item.condition;
         const text = condition.text;
         const temperature = condition.temp;
-        res.end(`It is ${temperature} celsius degrees in ${location} and ${text}`)
+        return `It is ${temperature} celsius degrees in ${location} and ${text}`;
     }
 }

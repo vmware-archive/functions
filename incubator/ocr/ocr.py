@@ -28,11 +28,11 @@ client = Minio('minio-minio-svc:9000',
 
 print('Loading function...')
       
-def handler(context):
-  if context['EventType'] == "s3:ObjectCreated:Put" : 
+def handler(event, context):
+  if event['data']['EventType'] == "s3:ObjectCreated:Put" : 
         tf = tempfile.NamedTemporaryFile(delete=False)
-        bucket = context['Key'].split('/')[0]
-        filename = context['Key'].split('/')[1]
+        bucket = event['data']['Key'].split('/')[0]
+        filename = event['data']['Key'].split('/')[1]
       
         # Fetching source file from Minio
         try:

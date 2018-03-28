@@ -19,8 +19,8 @@ for secrets in v1.list_secret_for_all_namespaces().items:
 
 sc = SlackClient(token)
 
-def handler(context):
-    msg = "k8s event: %s" % context
+def handler(event, context):
+    msg = "k8s event: %s" % event['data']
 
     r = sc.api_call(
                 "chat.postMessage",
@@ -31,4 +31,3 @@ def handler(context):
         return "Notification successfully sent to Slack"
     else:
         return "Error while sending notification to Slack: " + r.get('error')
-

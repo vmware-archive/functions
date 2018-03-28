@@ -19,9 +19,5 @@ api = twitter.Api(consumer_key=consumer_key,
                   access_token_key=token_key,
                   access_token_secret=token_secret)
 
-def handler(context):
-    msg = context.json
-    status = api.PostUpdate(msg['tweet'])
-
-
-
+def handler(event, context):
+    status = api.PostUpdate(event['data']['tweet'])

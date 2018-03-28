@@ -14,9 +14,5 @@ for secrets in v1.list_namespaced_secret("default").items:
 
 sc = SlackClient(token)
 
-def handler(context):
-    return sc.api_call(
-                       "chat.postMessage",
-                       channel="#bot",
-                       text=context.json['msg']
-                      )
+def handler(event, context):
+    return sc.api_call("chat.postMessage", channel="#bot", text=event['data']['msg'])

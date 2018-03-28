@@ -25,7 +25,7 @@ make slack
 With a local proxy running:
 
 ```
-curl --data '{"msg":"This is a message to SLACK"}' localhost:8080/api/v1/proxy/namespaces/default/services/slack/ --header "Content-Type:application/json"
+kubeless function call slack --data '{"msg":"This is a message to SLACK"}'
 ```
 
 ## Listen to Kubernetes events in SLACK
@@ -40,5 +40,5 @@ kubectl run events --image=skippbox/k8s-events:0.10.12
 Deploy the function to get triggered on k8s events and send message to SLACK
 
 ```
-make slack
+make events
 ```

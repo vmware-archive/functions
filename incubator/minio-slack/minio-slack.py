@@ -33,10 +33,11 @@ client = Minio('minio-minio-svc:9000',
 
 sc = SlackClient(token)
 
-def handler(context):
-    if context['EventType'] == "s3:ObjectCreated:Put":
-        bucket = context['Key'].split('/')[0]
-        filename = context['Key'].split('/')[1]
+
+def thumbnail(event, context):
+    if event['data']['EventType'] == "s3:ObjectCreated:Put":
+        bucket = event['data']['Key'].split('/')[0]
+        filename = event['data']['Key'].split('/')[1]
 
         msg = "An object called %s was uploaded to bucket %s" % (filename,bucket)
 
