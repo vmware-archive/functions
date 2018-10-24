@@ -27,6 +27,10 @@ spec:
           value: {{ .Values.config.offsetStorageTopic }}
         - name: BOOTSTRAP_SERVERS
           value: {{ .Values.config.bootstrapServers }}
+        {{- range $key, $value := $.Values.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{- end }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}
         resources:
