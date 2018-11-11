@@ -1,14 +1,14 @@
-apiVersion: k8s.io/v1
+apiVersion: kubeless.io/v1beta1
 kind: Function
 metadata:
   name: crypto
   namespace: default
 spec:
+  checksum: sha256:{{ .Files.Get "crypto.py" | sha256sum }}
   deps: |
     requests
-  function: "import requests\nimport urlparse\n\ndef handler(event):\n   ticker =
-    event.json['crypto']\n   path = urlparse.urljoin('https://api.coinmarketcap.com/v1/ticker/',
-    ticker)   \n   return requests.get(path).json()[0]['price_usd']\n"
+  function: |
+{{ .Files.Get "crypto.py" | indent 4 }}
   handler: crypto.handler
   runtime: python2.7
   type: HTTP
