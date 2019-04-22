@@ -1,5 +1,8 @@
 # Function to get price of Cryptocurrencies
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+This function is no longer supported and will be removed in 15 days.
+
 ```
 kubeless function deploy crypto --from-file crypto.py --handler crypto.handler --runtime python2.7 --dependencies requirements.txt
 ```
