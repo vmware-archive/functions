@@ -7,7 +7,7 @@ Make sure `minikube` and `kubeless` are installed. See the respective installati
 
 ## Prepare the environment
 
-This example uses the Debezium Kafka-Connect image to monitor a MySQL database and send events to a Kafka topic. A kubeless function will consume those events and performs actions.
+This example uses the Debezium Kafka-Connect image to monitor a MySQL database and send events to a Kafka topic. A kubeless function will consume those events and perform actions.
 
 ### Add kubeless-functions-charts repository
 
