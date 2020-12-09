@@ -71,7 +71,7 @@ mc ls localminio/foobar
 In order to deploy the function run the following command:
 
 ```bash
-$ kubeless function deploy minio-slack --from-file minio-slack.py --handler minio-slack.handler --runtime python2.7 --trigger-topic s3 --dependencies requirements.txt
+$ kubeless function deploy minio-slack --from-file minio-slack.py --handler minio-slack.handler --runtime python2.7 --dependencies requirements.txt
 ```
 
 You can list the function with `kubeless function ls` and you should see the following:
